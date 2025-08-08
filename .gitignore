@@ -1,0 +1,11 @@
+# Add the original game files to the .gitignore file - amulet_license.txt, catacombs.exe
+
+amulet_license.txt
+catacombs.exe
+d3dcompiler_47.dll
+data.pak
+libEGL.dll
+libGLESv2.dll
+SDL2.dll
+/extracted_game/
+/patches/*.pak
