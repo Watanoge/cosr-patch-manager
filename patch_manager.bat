@@ -34,27 +34,25 @@ if "%FIRST_RUN%"=="true" (
     echo.
     echo Select an option:
     echo.
-    echo [1] Clean setup ^(reset to original^)
+    echo [1] Load patch, or restore original files
     echo [2] Extract content to modify
-    echo [3] Create patch
-    echo [4] Load patch and restore original files
-    echo [5] Build and Test ^(temporary package for testing^)
-    echo [6] View state
-    echo [7] Open logs folder
-    echo [8] Open game
-    echo [9] Exit
+    echo [3] Build and Test
+    echo [4] Create patch
+    echo [5] View state
+    echo [6] Open logs folder
+    echo [7] Open game
+    echo [8] Exit
     echo.
-    set /p "choice=Choose option (1-9): "
+    set /p "choice=Choose option (1-8): "
     
-    if "!choice!"=="1" goto clean_setup
+    if "!choice!"=="1" goto load_patch
     if "!choice!"=="2" goto extract
-    if "!choice!"=="3" goto create_patch
-    if "!choice!"=="4" goto load_patch
-    if "!choice!"=="5" goto build_test
-    if "!choice!"=="6" goto view_state
-    if "!choice!"=="7" goto open_logs
-    if "!choice!"=="8" goto run_game
-    if "!choice!"=="9" goto exit
+    if "!choice!"=="3" goto build_test
+    if "!choice!"=="4" goto create_patch
+    if "!choice!"=="5" goto view_state
+    if "!choice!"=="6" goto open_logs
+    if "!choice!"=="7" goto run_game
+    if "!choice!"=="8" goto exit
     echo Invalid choice. Please try again.
     timeout /t 2 >nul
     goto menu
@@ -246,6 +244,7 @@ echo ===============================================
 echo.
 echo This will temporarily package your current modifications
 echo and launch the game for testing. No permanent patch is created.
+echo Original files will be restored automatically when the game is closed.
 echo.
 
 rem Check if extracted_game exists
@@ -291,57 +290,13 @@ echo.
 rem Wait a moment to ensure file handles are released
 timeout /t 2 >nul
 
-rem Check if game executable exists
-if not exist "catacombs.exe" (
-    echo ERROR: catacombs.exe not found in current directory.
-    echo Current directory: "%CD%"
-    pause
-    goto restore_after_test
-)
-
-rem Verify data.pak is accessible
-echo Verifying temporary package...
-if exist "data.pak" (
-    for %%A in ("data.pak") do (
-        if %%~zA LSS 1000 (
-            echo WARNING: data.pak seems too small ^(%%~zA bytes^)
-            echo This might indicate a packaging error.
-        ) else (
-            echo data.pak ready ^(%%~zA bytes^)
-        )
-    )
-) else (
-    echo ERROR: data.pak not found after packaging!
-    goto restore_after_test
-)
-
-rem Check for required DLL files
-echo Checking game dependencies...
-set "missing_files="
-if not exist "SDL2.dll" set "missing_files=!missing_files! SDL2.dll"
-if not exist "libEGL.dll" set "missing_files=!missing_files! libEGL.dll"
-if not exist "libGLESv2.dll" set "missing_files=!missing_files! libGLESv2.dll"
-if not exist "d3dcompiler_47.dll" set "missing_files=!missing_files! d3dcompiler_47.dll"
-
-if not "!missing_files!"=="" (
-    echo WARNING: Missing DLL files: !missing_files!
-    echo The game might crash due to missing dependencies.
-    echo.
-    set /p "continue=Continue anyway? (y/N): "
-    if /i not "!continue!"=="y" goto restore_after_test
-)
-
-rem Test if the game can at least start
-echo Testing game startup (this may take a moment)...
-timeout /t 1 >nul
-
 rem Launch the game with proper working directory and detached process
 echo Starting catacombs.exe...
 echo.
 echo IMPORTANT: 
 echo - The game will start and this window will wait for it to close
 echo - If the game crashes, you can open the logs folder from the menu
-echo - Close the game normally to automatically restore original files
+echo - When closing the game, the original files will be restored automatically
 echo.
 echo Starting game now...
 
@@ -394,7 +349,6 @@ if exist "%USERPROFILE%\AppData\Roaming\Ian MacLarty\catacombs" (
     echo Folder opened in explorer.
     echo.
     echo Here you can find:
-    echo - Game log files
     echo - Crash information
     echo - Saved configurations
     timeout /t 3 >nul
@@ -423,7 +377,4 @@ if exist "catacombs.exe" (
 goto menu
 
 :exit
-echo.
-echo Thanks for using Patch Manager!
-timeout /t 2 >nul
 exit

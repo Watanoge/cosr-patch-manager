@@ -46,41 +46,40 @@ your_game_folder/
 
 ## The Menu Breakdown
 
-### [1] Clean Setup
-- Makes a backup of your current game
-- Sets up the modding environment
+### [1] Load Patch, or Restore Original Files
+- Puts the game back to vanilla
+- Applies someone else's patch
+- Rebuilds everything
+- **Use this**: Installing downloaded mods or restoring original game files
 
 ### [2] Extract Content to Modify
 - Unpacks your game files into `extracted_game\`
 - **Use this**: When you want to start modding existing files
 
-### [3] Create Patch
-- Compares your changes vs the original
-- Makes a tiny `.patch` file with just your modifications
-- **Use this**: When you're done modding and want to share
-
-### [4] Load Patch and Restore Original
-- Puts the game back to vanilla
-- Applies someone else's patch
-- Rebuilds everything
-- **Use this**: Installing downloaded mods
-
-### [5] Build and Test
+### [3] Build and Test
 - Temporarily packages your current work
 - Launches the game for testing
 - Automatically restores original files when game closes
 - **Use this**: Testing your changes without creating a permanent patch
 
-### [6] View State
+### [4] Create Patch
+- Compares your changes vs the original
+- Makes a tiny `.patch` file with just your modifications
+- **Use this**: When you're done modding and want to share
+
+### [5] View State
 - Shows what's going on with your setup
 - Lists available patches and file info
 
-### [7] Open Logs Folder
+### [6] Open Logs Folder
 - Opens the game's crash log folder (COSR-specific)
 - Handy for debugging when things go wrong
 
-### [8] Open Game
+### [7] Open Game
 - Just launches the game normally
+
+### [8] Exit
+- Exits the patch manager
 
 ## Installing Other People's Mods
 
