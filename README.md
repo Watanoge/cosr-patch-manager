@@ -1,200 +1,134 @@
-# Patch Manager - Catacombs of Solaris Revisited
+# Patch Manager for The Catacombs of Solaris Revisited
 
-A new ethical approach to modding that distributes only the differences instead of complete game files.
+Originally built for The Catacombs of Solaris Revisited, but the general process should work with any Amulet engine game (though the log opening feature is COSR-specific).
+
+## Installation
+
+Drop these files into your game's root folder:
+
+1. **Find your game folder**
+   - Steam: Right-click the game → Properties → Local Files → Browse
+   - Usually something like: `C:\Program Files (x86)\Steam\steamapps\common\The Catacombs of Solaris Revisited`
+
+2. **Copy these files there**:
+   - `patch_manager.bat`
+   - `patch_manager.ps1`
+   - `/patches/` this folder contains some basic QOL patches ready to install
+   
+3. **That's it!** You should see them next to `catacombs.exe` and `data.pak`
 
 ## Quick Start
 
-1. Run `patch_manager.bat`
-2. If it's your first time, choose `[1] Clean setup`
-3. Modify files in the `extracted_game\` folder
-4. Create a patch with `[3] Create patch`
-5. Share the `.patch` file (not the complete game files!)
+1. Double-click `patch_manager.bat`
+2. Choose `[1] Clean setup` to get everything ready
+3. Edit files in the `extracted_game\` folder that gets created
+5. Use `[5] Build and Test` to test your changes live
+4. When you're done, use `[3] Create patch` to package your changes
+5. Share your `.patch` file with the community!
 
-## How It Works
-
-### Traditional Approach (Problems)
-- Extract game files → Modify → Redistribute complete modified game
-- **Issues**: Copyright infringement, large file sizes, version conflicts
-
-### New Patch System (Ethical)
-- Extract → Modify → Compare → Create diff file → Distribute only differences
-- **Benefits**: Legal compliance, small files, version specific
-
-## File Structure
+## What You'll See
 
 ```
-game_directory/
-├── patch_manager.bat          # Main interface
-├── patch_manager.ps1          # PowerShell backend
-├── data.pak                   # Original/current game file
-├── catacombs.exe             # Game executable
+your_game_folder/
+├── patch_manager.bat          # Double-click this to start
+├── patch_manager.ps1          # The behind-the-scenes magic
+├── data.pak                   # Your game's content file
+├── catacombs.exe             # The actual game
 ├── patches/
-│   ├── data_original.pak     # The original .pak file on first setup
-│   ├── my_mod.patch          # Your patches
-│   └── community_mod.patch   # Downloaded patches
-└── extracted_game/           # Working directory
-    ├── menu.lua              # Modify these files
+│   ├── data_original.pak     # Backup of the original game
+│   ├── my_awesome_mod.patch  # Your creations
+│   └── someones_mod.patch    # Downloaded mods
+└── extracted_game/           # Your modding workspace
+    ├── menu.lua              # Edit these files to your heart's content
     ├── game.lua
-    └── ...
+    └── ... (all the other game files)
 ```
 
-## Menu Options
+## The Menu Breakdown
 
 ### [1] Clean Setup
-- Creates a backup of the current `data.pak`
-- Sets up patch environment
-- **Use when**: First time or to reset everything
+- Makes a backup of your current game
+- Sets up the modding environment
 
 ### [2] Extract Content to Modify
-- Extracts current `data.pak` to `extracted_game\`
-- **Use when**: You want to modify existing files
+- Unpacks your game files into `extracted_game\`
+- **Use this**: When you want to start modding existing files
 
 ### [3] Create Patch
-- Compares modified files vs original
-- Creates a `.patch` file with only differences
-- **Use when**: You've finished your modifications
+- Compares your changes vs the original
+- Makes a tiny `.patch` file with just your modifications
+- **Use this**: When you're done modding and want to share
 
 ### [4] Load Patch and Restore Original
-- Restores original game files
-- Applies selected patch modifications
-- Repackages the game
-- **Use when**: Installing someone else's patch
+- Puts the game back to vanilla
+- Applies someone else's patch
+- Rebuilds everything
+- **Use this**: Installing downloaded mods
 
-### [5] View State
-- Shows system status
-- Lists available patches
-- File sizes and modification dates
+### [5] Build and Test
+- Temporarily packages your current work
+- Launches the game for testing
+- Automatically restores original files when game closes
+- **Use this**: Testing your changes without creating a permanent patch
 
-### [6] Open Logs Folder
-- Opens game's log directory
-- Useful for debugging crashes
+### [6] View State
+- Shows what's going on with your setup
+- Lists available patches and file info
 
-### [7] Open Game
-- Launches Catacombs of Solaris
+### [7] Open Logs Folder
+- Opens the game's crash log folder (COSR-specific)
+- Handy for debugging when things go wrong
 
-## Patch File Format
+### [8] Open Game
+- Just launches the game normally
 
-Patches are JSON files containing:
+## Installing Other People's Mods
 
-```json
-{
-  "metadata": {
-    "name": "My Cool Mod",
-    "description": "Adds multiple gallery images",
-    "author": "YourName",
-    "created": "2025-08-08 10:30:00",
-    "version": "1.0",
-    "target_game": "Catacombs of Solaris Revisited"
-  },
-  "changes": [
-    {
-      "type": "Modified",
-      "path": "menu.lua",
-      "content": "<base64-encoded-file-content>"
-    },
-    {
-      "type": "Added", 
-      "path": "gallery/new_image.png",
-      "content": "<base64-encoded-file-content>"
-    }
-  ]
-}
-```
-
-## Creating Mods
-
-### Step-by-Step Process
-
-1. **Setup Environment**
-   ```
-   Run patch_manager.bat → [1] Clean setup
-   ```
-
-2. **Modify Files**
-   ```
-   Edit files in extracted_game\ folder
-   Add new files if needed
-   Test your changes
-   ```
-
-3. **Create Patch**
-   ```
-   Run patch_manager.bat → [3] Create patch
-   Enter mod name, description, author
-   ```
-
-4. **Share Patch**
-   ```
-   Upload .patch file to community
-   Include installation instructions
-   ```
-
-### Best Practices
-
-- **Test thoroughly** before creating patches
-- **Use descriptive names** for your patches
-- **Document changes** in the description
-- **Keep patches focused** on specific features
-- **Include screenshots** when sharing
-
-## Installing Community Patches
-
-### From File
-
-1. Download `.patch` file
-2. Place in `patches\` folder
+1. Download the `.patch` file
+2. Toss it in your `patches\` folder  
 3. Run `patch_manager.bat → [4] Load patch`
-4. Select your patch file
+4. Pick the patch from the list
+5. Enjoy!
 
-### Safety Features
+## When Things Go Wrong
 
-- **Automatic backup** of original files
-- **One-click restore** to original state
-- **Patch validation** before installation
-- **Error recovery** if installation fails
+### "Oops, data.pak not found!"
+- Double-check you put the files in the right game folder
+- Maybe verify your game files through Steam?
 
-## Troubleshooting
+### "Where's my original backup?"
+- Check inside the `patches` folder for `data_original.pak`
+- Run `[4] Load Patch and Restore Original` and pick option 0 to load the original `data.pak` file
 
-### Common Issues
-
-**"data.pak not found"**
-- Make sure the files are in the game's root directory
-- Verify game installation integrity
-
-**"No original backup found"**
-- Run `[1] Clean setup` to create backup
-- Check `backups\` folder exists
-
-### Log Files
-
-Game logs location:
+### Game Crashes?
+Check the logs at:
 ```
 %USERPROFILE%\AppData\Roaming\Ian MacLarty\catacombs\
 ```
+(That's `[7] Open Logs Folder` for convenience!)
 
-### Archive Format
+## Technical Stuff (For the Curious)
 
-- Game uses ZIP-based PAK files
-- Compatible with standard ZIP tools
-- PowerShell handles compression as fallback
+### Under the Hood
+- Game files are basically ZIP files with a different name
+- We use PowerShell for the heavy lifting
+- MD5 hashes help us spot what actually changed
+- Works with any file type (code, images, 3D models, whatever)
 
-### File Comparison
+## What's Cool to Share vs. What's Not
 
-- Uses MD5 hashing for change detection
-- Binary file comparison for accuracy
-- Supports all file types (Lua, PNG, OBJ, etc.)
+### ✅ Totally Fine
+- Your `.patch` files
+- Setup guides and tutorials  
+- Screenshots of your awesome mods
+- Code snippets and tips
 
-## Legal & Ethical Considerations
-
-### What You Can Share
-
-✅ **Allowed**
-- `.patch` files you create
-- Instructions and documentation
-- Screenshots of your modifications
-- Code snippets and tutorials
-
-❌ **Not Allowed**
+### ❌ Please Don't
 - Complete `data.pak` files
-- Modified game executables
+- The actual game executable
 - Original game assets
+- Anything that's basically piracy
+
+---
+
+*Remember: This tool was made specifically for COSR, but the general approach should work with other Amulet engine games too. Just don't expect the logs folder thing to work elsewhere!*
